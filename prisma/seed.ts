@@ -40,6 +40,20 @@ async function seed() {
     },
   });
 
+  await prisma.crop.create({
+    data: {
+      species: "Tomato",
+      userId: user.id,
+    },
+  });
+
+  await prisma.crop.create({
+    data: {
+      species: "Dwarf French Bean",
+      userId: user.id,
+    },
+  });
+
   console.log(`Database has been seeded. 🌱`);
 }
 

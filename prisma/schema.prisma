@@ -16,6 +16,7 @@ model User {
 
   password Password?
   notes    Note[]
+  crops    Crop[]
 }
 
 model Password {
@@ -34,5 +35,16 @@ model Note {
   updatedAt DateTime @updatedAt
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+}
+
+model Crop {
+  id  String @id @default(cuid())
+  species String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String
 }
