@@ -19,7 +19,10 @@ export default function CropsIndexPage() {
   const data = useLoaderData() as LoaderData;
 
   return (
-    <>
+    <div>
+      <Link to="new" className="block p-4 text-center text-xl text-blue-500">
+        Add Crop
+      </Link>
       {data.cropListItems.length === 0 ? (
         <p className="p-4">No crops yet</p>
       ) : (
@@ -36,6 +39,6 @@ export default function CropsIndexPage() {
           ))}
         </ol>
       )}
-    </>
+    </div>
   );
 }

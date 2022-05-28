@@ -20,6 +20,22 @@ export function getCropListItems({ userId }: { userId: User["id"] }) {
   });
 }
 
+export function createCrop({
+  species,
+  userId,
+}: Pick<Crop, "species"> & { userId: User["id"] }) {
+  return prisma.crop.create({
+    data: {
+      species,
+      user: {
+        connect: {
+          id: userId,
+        },
+      },
+    },
+  });
+}
+
 export function deleteCrop({
   id,
   userId,
