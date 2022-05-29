@@ -1,14 +1,24 @@
-import type { Crop, User } from "@prisma/client";
+import type { Crop, Prisma, User } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 
 export type { Crop } from "@prisma/client";
+
+export type CropWithSowings = Prisma.CropGetPayload<{
+  include: { sowings: true };
+}>;
+
+export enum CropStage {
+  Growing = "growing",
+  Finished = "finished",
+}
 
 export function getCrop({
   id,
   userId,
 }: Pick<Crop, "id"> & { userId: User["id"] }) {
   return prisma.crop.findFirst({
+    include: { sowings: true },
     where: { id, userId },
   });
 }
@@ -42,5 +52,18 @@ export function deleteCrop({
 }: Pick<Crop, "id"> & { userId: User["id"] }) {
   return prisma.crop.deleteMany({
     where: { id, userId },
+  });
+}
+
+export function createSowing({ id }: Pick<Crop, "id">) {
+  return prisma.sowing.create({
+    data: {
+      stage: CropStage.Growing,
+      crop: {
+        connect: {
+          id,
+        },
+      },
+    },
   });
 }

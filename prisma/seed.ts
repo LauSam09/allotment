@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { CropStage } from "~/models/crops.server";
 
 const prisma = new PrismaClient();
 
@@ -40,16 +41,44 @@ async function seed() {
     },
   });
 
-  await prisma.crop.create({
+  const tomatoCrop = await prisma.crop.create({
     data: {
       species: "Tomato",
       userId: user.id,
     },
   });
 
-  await prisma.crop.create({
+  await prisma.sowing.create({
+    data: {
+      stage: CropStage.Growing,
+      cropId: tomatoCrop.id,
+    },
+  });
+
+  await prisma.sowing.create({
+    data: {
+      stage: CropStage.Growing,
+      cropId: tomatoCrop.id,
+    },
+  });
+
+  const dfbCrop = await prisma.crop.create({
     data: {
       species: "Dwarf French Bean",
+      userId: user.id,
+    },
+  });
+
+  await prisma.sowing.create({
+    data: {
+      stage: CropStage.Growing,
+      cropId: dfbCrop.id,
+    },
+  });
+
+  await prisma.crop.create({
+    data: {
+      species: "Garlic",
       userId: user.id,
     },
   });

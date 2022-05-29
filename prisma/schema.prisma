@@ -38,9 +38,19 @@ model Note {
   userId String
 }
 
+model Sowing {
+  id  String @id @default(cuid())
+
+  stage String
+
+  crop Crop @relation(fields: [cropId], references: [id])
+  cropId String
+}
+
 model Crop {
   id  String @id @default(cuid())
   species String
+  sowings Sowing[] 
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
