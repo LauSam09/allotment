@@ -51,6 +51,7 @@ async function seed() {
   await prisma.sowing.create({
     data: {
       stage: CropStage.Growing,
+      plantedAt: new Date(2022, 4, 8),
       cropId: tomatoCrop.id,
     },
   });
@@ -58,6 +59,7 @@ async function seed() {
   await prisma.sowing.create({
     data: {
       stage: CropStage.Growing,
+      plantedAt: new Date(2022, 4, 22),
       cropId: tomatoCrop.id,
     },
   });
@@ -72,6 +74,7 @@ async function seed() {
   await prisma.sowing.create({
     data: {
       stage: CropStage.Growing,
+      plantedAt: new Date(2022, 4, 22),
       cropId: dfbCrop.id,
     },
   });

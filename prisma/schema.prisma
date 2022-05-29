@@ -42,6 +42,7 @@ model Sowing {
   id  String @id @default(cuid())
 
   stage String
+  plantedAt DateTime @default(now())
 
   crop Crop @relation(fields: [cropId], references: [id])
   cropId String

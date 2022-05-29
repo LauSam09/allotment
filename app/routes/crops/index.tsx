@@ -26,7 +26,7 @@ export default function CropsIndexPage() {
       {data.cropListItems.length === 0 ? (
         <p className="p-4">No crops yet</p>
       ) : (
-        <ol className="min-w-[500px]">
+        <ol>
           {data.cropListItems.map((crop) => (
             <li key={crop.id}>
               <Link
