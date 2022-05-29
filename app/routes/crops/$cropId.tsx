@@ -1,3 +1,5 @@
+import { AddIcon, DeleteIcon, HamburgerIcon } from "@chakra-ui/icons";
+import { Menu, MenuButton, Button, MenuList, MenuItem } from "@chakra-ui/react";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -58,8 +60,8 @@ export default function CropDetailsPage() {
     <div className="flex flex-col gap-2">
       <h3 className="text-2xl font-bold">{data.crop.species}</h3>
 
-      <div className="rounded border-2 p-2">
-        <div className="flex justify-between">
+      <div className="flex flex-col gap-2 rounded border-2 p-2">
+        <div className="flex justify-between ">
           <h4 className="text-xl">Sowings</h4>
           <Form method="post">
             <button
@@ -68,17 +70,29 @@ export default function CropDetailsPage() {
               value="add-sowing"
               className="rounded bg-blue-500 py-2 px-4 text-xs text-white hover:bg-blue-600 focus:bg-blue-400"
             >
-              Add
+              <AddIcon />
             </button>
           </Form>
         </div>
         {data.crop.sowings.length === 0 ? (
           <span>No sowings yet</span>
         ) : (
-          <ol>
+          <ol className="justify flex flex-col gap-2">
             {data.crop.sowings.map((sowing, i) => (
-              <li key={sowing.id}>
-                {new Date(sowing.plantedAt).toLocaleDateString()} {sowing.stage}
+              <li key={sowing.id} className="flex items-center justify-between">
+                <span>
+                  🌱
+                  {new Date(sowing.plantedAt).toLocaleDateString()} ⏰{" "}
+                  {(i + 1) * 7} days
+                </span>
+                <Menu>
+                  <MenuButton as={Button}>
+                    <HamburgerIcon />
+                  </MenuButton>
+                  <MenuList>
+                    <MenuItem icon={<DeleteIcon />}>Delete</MenuItem>
+                  </MenuList>
+                </Menu>
               </li>
             ))}
           </ol>
