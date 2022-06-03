@@ -8,10 +8,11 @@ import { Menu, MenuButton, Button, MenuList, MenuItem } from "@chakra-ui/react";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, useCatch, useLoaderData } from "@remix-run/react";
+import { Form, useCatch, useFetcher, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
 import type { CropWithSowings } from "~/models/crops.server";
+import { deleteSowing } from "~/models/crops.server";
 import { createSowing } from "~/models/crops.server";
 import { deleteCrop } from "~/models/crops.server";
 import { getCrop } from "~/models/crops.server";
@@ -39,27 +40,36 @@ export const action: ActionFunction = async ({ request, params }) => {
   invariant(params.cropId, "cropId not found");
 
   const formData = await request.formData();
+  const action = formData.get("action");
 
-  if (formData.get("action") === "delete") {
+  if (action === "delete") {
     await deleteCrop({ userId, id: params.cropId });
     return redirect("/crops");
   }
 
-  if (formData.get("action") === "add-sowing") {
-    const crop = await getCrop({ userId, id: params.cropId });
+  const crop = await getCrop({ userId, id: params.cropId });
 
-    if (!crop) {
-      throw new Response("Not Found", { status: 404 });
-    }
-
-    await createSowing({ id: crop.id });
-
-    return null;
+  if (!crop) {
+    throw new Response("Not Found", { status: 404 });
   }
+
+  if (action === "add-sowing") {
+    await createSowing({ id: crop.id });
+  }
+
+  if (action === "delete-sowing") {
+    const sowingId = formData.get("id");
+    invariant(sowingId, "sowingId not found");
+
+    await deleteSowing({ id: sowingId.toString(), cropId: crop.id });
+  }
+
+  return null;
 };
 
 export default function CropDetailsPage() {
   const data = useLoaderData() as LoaderData;
+  const fetcher = useFetcher();
 
   return (
     <div className="flex flex-col gap-2">
@@ -83,7 +93,7 @@ export default function CropDetailsPage() {
           <span>No sowings yet</span>
         ) : (
           <ol className="justify flex flex-col gap-2">
-            {data.crop.sowings.map((sowing, i) => (
+            {data.crop.sowings.map((sowing) => (
               <li key={sowing.id} className="flex items-center justify-between">
                 <span>
                   <CalendarIcon />{" "}
@@ -94,7 +104,17 @@ export default function CropDetailsPage() {
                     <HamburgerIcon />
                   </MenuButton>
                   <MenuList>
-                    <MenuItem icon={<DeleteIcon />}>Delete</MenuItem>
+                    <MenuItem
+                      icon={<DeleteIcon />}
+                      onClick={() =>
+                        fetcher.submit(
+                          { id: sowing.id, action: "delete-sowing" },
+                          { method: "post" }
+                        )
+                      }
+                    >
+                      Delete
+                    </MenuItem>
                   </MenuList>
                 </Menu>
               </li>

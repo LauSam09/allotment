@@ -1,4 +1,4 @@
-import type { Crop, Prisma, User } from "@prisma/client";
+import type { Crop, Prisma, Sowing, User } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 
@@ -64,6 +64,19 @@ export function createSowing({ id }: Pick<Crop, "id">) {
           id,
         },
       },
+    },
+  });
+}
+
+// TODO: require userId as well.
+export function deleteSowing({
+  id,
+  cropId,
+}: Pick<Sowing, "id"> & { cropId: Crop["id"] }) {
+  return prisma.sowing.deleteMany({
+    where: {
+      id,
+      cropId,
     },
   });
 }
