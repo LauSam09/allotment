@@ -5,14 +5,14 @@ import { CropStage } from "~/models/crops.server";
 const prisma = new PrismaClient();
 
 async function seed() {
-  const email = "rachel@remix.run";
+  const email = "test@test.com";
 
   // cleanup the existing database
   await prisma.user.delete({ where: { email } }).catch(() => {
     // no worries if it doesn't exist yet
   });
 
-  const hashedPassword = await bcrypt.hash("racheliscool", 10);
+  const hashedPassword = await bcrypt.hash("password", 10);
 
   const user = await prisma.user.create({
     data: {
@@ -25,19 +25,94 @@ async function seed() {
     },
   });
 
-  await prisma.note.create({
+  const garlicCrop = await prisma.crop.create({
     data: {
-      title: "My first note",
-      body: "Hello, world!",
+      species: "Garlic",
       userId: user.id,
     },
   });
 
-  await prisma.note.create({
+  await prisma.sowing.create({
     data: {
-      title: "My second note",
-      body: "Hello, world!",
+      stage: CropStage.Growing,
+      plantedAt: new Date(2021, 10, 16),
+      cropId: garlicCrop.id,
+    },
+  });
+
+  const shallotCrop = await prisma.crop.create({
+    data: {
+      species: "Shallot",
       userId: user.id,
+    },
+  });
+
+  await prisma.sowing.create({
+    data: {
+      stage: CropStage.Growing,
+      plantedAt: new Date(2021, 11, 4),
+      cropId: shallotCrop.id,
+    },
+  });
+
+  const potatoCrop = await prisma.crop.create({
+    data: {
+      species: "Potato (early)",
+      userId: user.id,
+    },
+  });
+
+  await prisma.sowing.create({
+    data: {
+      stage: CropStage.Growing,
+      plantedAt: new Date(2022, 2, 7),
+      cropId: potatoCrop.id,
+    },
+  });
+
+  const carrotCrop = await prisma.crop.create({
+    data: {
+      species: "Carrot",
+      userId: user.id,
+    },
+  });
+
+  await prisma.sowing.create({
+    data: {
+      stage: CropStage.Growing,
+      plantedAt: new Date(2022, 2, 12),
+      cropId: carrotCrop.id,
+    },
+  });
+
+  await prisma.sowing.create({
+    data: {
+      stage: CropStage.Growing,
+      plantedAt: new Date(2022, 3, 23),
+      cropId: carrotCrop.id,
+    },
+  });
+
+  await prisma.sowing.create({
+    data: {
+      stage: CropStage.Growing,
+      plantedAt: new Date(2022, 4, 7),
+      cropId: carrotCrop.id,
+    },
+  });
+
+  const betrootCrop = await prisma.crop.create({
+    data: {
+      species: "Beetroot",
+      userId: user.id,
+    },
+  });
+
+  await prisma.sowing.create({
+    data: {
+      stage: CropStage.Growing,
+      plantedAt: new Date(2022, 2, 12),
+      cropId: betrootCrop.id,
     },
   });
 
@@ -51,7 +126,7 @@ async function seed() {
   await prisma.sowing.create({
     data: {
       stage: CropStage.Growing,
-      plantedAt: new Date(2022, 4, 8),
+      plantedAt: new Date(2022, 2, 20),
       cropId: tomatoCrop.id,
     },
   });
@@ -59,7 +134,7 @@ async function seed() {
   await prisma.sowing.create({
     data: {
       stage: CropStage.Growing,
-      plantedAt: new Date(2022, 4, 22),
+      plantedAt: new Date(2022, 3, 20),
       cropId: tomatoCrop.id,
     },
   });
@@ -74,15 +149,8 @@ async function seed() {
   await prisma.sowing.create({
     data: {
       stage: CropStage.Growing,
-      plantedAt: new Date(2022, 4, 22),
+      plantedAt: new Date(2022, 2, 20),
       cropId: dfbCrop.id,
-    },
-  });
-
-  await prisma.crop.create({
-    data: {
-      species: "Garlic",
-      userId: user.id,
     },
   });
 

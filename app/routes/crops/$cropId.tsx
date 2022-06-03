@@ -1,4 +1,9 @@
-import { AddIcon, DeleteIcon, HamburgerIcon } from "@chakra-ui/icons";
+import {
+  AddIcon,
+  CalendarIcon,
+  DeleteIcon,
+  HamburgerIcon,
+} from "@chakra-ui/icons";
 import { Menu, MenuButton, Button, MenuList, MenuItem } from "@chakra-ui/react";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
@@ -81,9 +86,8 @@ export default function CropDetailsPage() {
             {data.crop.sowings.map((sowing, i) => (
               <li key={sowing.id} className="flex items-center justify-between">
                 <span>
-                  🌱
-                  {new Date(sowing.plantedAt).toLocaleDateString()} ⏰{" "}
-                  {(i + 1) * 7} days
+                  <CalendarIcon />{" "}
+                  {new Date(sowing.plantedAt).toLocaleDateString()}
                 </span>
                 <Menu>
                   <MenuButton as={Button}>
