@@ -29,7 +29,6 @@
     "/public/build"
   ],
   "dependencies": {
-    "@chakra-ui/icons": "^2.0.1",
     "@chakra-ui/react": "^2.1.2",
     "@emotion/cache": "^11.7.1",
     "@emotion/react": "^11.9.0",
@@ -44,6 +43,7 @@
     "framer-motion": "^6.3.4",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-icons": "^4.4.0",
     "tiny-invariant": "^1.2.0"
   },
   "devDependencies": {

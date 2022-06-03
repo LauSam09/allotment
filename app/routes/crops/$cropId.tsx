@@ -1,15 +1,15 @@
-import {
-  AddIcon,
-  CalendarIcon,
-  DeleteIcon,
-  HamburgerIcon,
-} from "@chakra-ui/icons";
 import { Menu, MenuButton, Button, MenuList, MenuItem } from "@chakra-ui/react";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, useCatch, useFetcher, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
+import {
+  BsFillCalendarFill,
+  BsFillTrashFill,
+  BsPlusLg,
+  BsThreeDotsVertical,
+} from "react-icons/bs";
 
 import type { CropWithSowings } from "~/models/crops.server";
 import { deleteSowing } from "~/models/crops.server";
@@ -85,7 +85,7 @@ export default function CropDetailsPage() {
               value="add-sowing"
               className="rounded bg-blue-500 py-2 px-4 text-xs text-white hover:bg-blue-600 focus:bg-blue-400"
             >
-              <AddIcon />
+              <BsPlusLg />
             </button>
           </Form>
         </div>
@@ -95,17 +95,17 @@ export default function CropDetailsPage() {
           <ol className="justify flex flex-col gap-2">
             {data.crop.sowings.map((sowing) => (
               <li key={sowing.id} className="flex items-center justify-between">
-                <span>
-                  <CalendarIcon />{" "}
+                <span className="flex items-center gap-1">
+                  <BsFillCalendarFill className="inline" />
                   {new Date(sowing.plantedAt).toLocaleDateString()}
                 </span>
                 <Menu>
                   <MenuButton as={Button}>
-                    <HamburgerIcon />
+                    <BsThreeDotsVertical />
                   </MenuButton>
                   <MenuList>
                     <MenuItem
-                      icon={<DeleteIcon />}
+                      icon={<BsFillTrashFill />}
                       onClick={() =>
                         fetcher.submit(
                           { id: sowing.id, action: "delete-sowing" },
