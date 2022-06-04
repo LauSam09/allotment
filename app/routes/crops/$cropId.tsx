@@ -2,7 +2,13 @@ import { Menu, MenuButton, Button, MenuList, MenuItem } from "@chakra-ui/react";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, useCatch, useFetcher, useLoaderData } from "@remix-run/react";
+import {
+  Form,
+  Link,
+  useCatch,
+  useFetcher,
+  useLoaderData,
+} from "@remix-run/react";
 import invariant from "tiny-invariant";
 import {
   BsFillCalendarFill,
@@ -78,16 +84,12 @@ export default function CropDetailsPage() {
       <div className="flex flex-col gap-2 rounded border-2 p-2">
         <div className="flex justify-between ">
           <h4 className="text-xl">Sowings</h4>
-          <Form method="post">
-            <button
-              type="submit"
-              name="action"
-              value="add-sowing"
-              className="rounded bg-blue-500 py-2 px-4 text-xs text-white hover:bg-blue-600 focus:bg-blue-400"
-            >
-              <BsPlusLg />
-            </button>
-          </Form>
+          <Link
+            to="sowings/new"
+            className="rounded bg-blue-500 py-2 px-4 text-xs text-white hover:bg-blue-600 focus:bg-blue-400"
+          >
+            <BsPlusLg />
+          </Link>
         </div>
         {data.crop.sowings.length === 0 ? (
           <span>No sowings yet</span>
