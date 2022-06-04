@@ -44,7 +44,7 @@ model Sowing {
   stage String
   plantedAt DateTime @default(now())
 
-  crop Crop @relation(fields: [cropId], references: [id])
+  crop Crop @relation(fields: [cropId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   cropId String
 }
 
