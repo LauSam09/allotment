@@ -95,6 +95,7 @@ export default function NewCropPage() {
             onChange={setPlantedDate}
             // TypeScript workaround based on https://github.com/Hacker0x01/react-datepicker/issues/2165#issuecomment-711032947
             customInput={React.createElement(React.forwardRef(CustomInput))}
+            filterDate={(date) => new Date() > date}
           />
         </label>
       </div>
