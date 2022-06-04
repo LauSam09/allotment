@@ -55,10 +55,14 @@ export function deleteCrop({
   });
 }
 
-export function createSowing({ id }: Pick<Crop, "id">) {
+export function createSowing({
+  id,
+  plantedAt,
+}: Pick<Crop, "id"> & Pick<Sowing, "plantedAt">) {
   return prisma.sowing.create({
     data: {
       stage: CropStage.Growing,
+      plantedAt,
       crop: {
         connect: {
           id,

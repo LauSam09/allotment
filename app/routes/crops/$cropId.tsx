@@ -59,10 +59,6 @@ export const action: ActionFunction = async ({ request, params }) => {
     throw new Response("Not Found", { status: 404 });
   }
 
-  if (action === "add-sowing") {
-    await createSowing({ id: crop.id });
-  }
-
   if (action === "delete-sowing") {
     const sowingId = formData.get("id");
     invariant(sowingId, "sowingId not found");
