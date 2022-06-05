@@ -81,6 +81,7 @@ export default function NewCropPage() {
             onChange={setPlantedDate}
             filterDate={(date) => new Date() > date}
             showPopperArrow={false}
+            name="planted-at"
             className="rounded border-2 p-1"
           />
         </label>

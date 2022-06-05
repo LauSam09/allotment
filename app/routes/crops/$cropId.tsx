@@ -87,7 +87,6 @@ export default function CropDetailsPage() {
                 name="action"
                 value="delete"
                 icon={<BsFillTrashFill />}
-                onClick={() => {}}
               >
                 Delete
               </MenuItem>
