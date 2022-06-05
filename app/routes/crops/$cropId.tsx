@@ -19,7 +19,6 @@ import {
 
 import type { CropWithSowings } from "~/models/crops.server";
 import { deleteSowing } from "~/models/crops.server";
-import { createSowing } from "~/models/crops.server";
 import { deleteCrop } from "~/models/crops.server";
 import { getCrop } from "~/models/crops.server";
 import { requireUserId } from "~/session.server";
@@ -70,12 +69,32 @@ export const action: ActionFunction = async ({ request, params }) => {
 };
 
 export default function CropDetailsPage() {
-  const data = useLoaderData() as LoaderData;
+  const data = useLoaderData<LoaderData>();
   const fetcher = useFetcher();
 
   return (
     <div className="flex flex-col gap-2">
-      <h3 className="text-2xl font-bold">{data.crop.species}</h3>
+      <div className="flex justify-between">
+        <h3 className="text-2xl font-bold">{data.crop.species}</h3>
+        <Form method="post">
+          <Menu>
+            <MenuButton as={Button}>
+              <BsThreeDotsVertical />
+            </MenuButton>
+            <MenuList>
+              <MenuItem
+                type="submit"
+                name="action"
+                value="delete"
+                icon={<BsFillTrashFill />}
+                onClick={() => {}}
+              >
+                Delete
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </Form>
+      </div>
 
       <div className="flex flex-col gap-2 rounded border-2 p-2">
         <div className="flex justify-between ">
@@ -141,16 +160,6 @@ export default function CropDetailsPage() {
         <p>Created {new Date(data.crop.createdAt).toLocaleDateString()}</p>
         <p>Updated {new Date(data.crop.updatedAt).toLocaleDateString()}</p>
       </div>
-      <Form method="post">
-        <button
-          type="submit"
-          name="action"
-          value="delete"
-          className="rounded bg-blue-500 py-2 px-4 text-white hover:bg-blue-600 focus:bg-blue-400"
-        >
-          Delete
-        </button>
-      </Form>
     </div>
   );
 }
