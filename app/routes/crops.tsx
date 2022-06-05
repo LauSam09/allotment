@@ -24,8 +24,8 @@ export default function CropsPage() {
           </button>
         </Form>
       </header>
-      <main className="flex h-full justify-center bg-white p-4">
-        <div className="max-w-[600px] flex-1 ">
+      <main className="flex h-full justify-center bg-green-50">
+        <div className="max-w-[600px] flex-1 bg-white p-4">
           <Outlet />
         </div>
       </main>
