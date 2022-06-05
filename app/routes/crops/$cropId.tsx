@@ -91,41 +91,48 @@ export default function CropDetailsPage() {
           <span>No sowings yet</span>
         ) : (
           <ol className="justify flex flex-col gap-2">
-            {data.crop.sowings.map((sowing) => (
-              <li key={sowing.id} className="flex items-center justify-between">
-                <div className="flex items-center gap-1">
-                  <BsFillCalendarFill className="inline" />
-                  <span>{new Date(sowing.plantedAt).toLocaleDateString()}</span>
-                  <span>
-                    (
-                    {Math.ceil(
-                      (new Date().getTime() -
-                        new Date(sowing.plantedAt).getTime()) /
-                        (1000 * 3600 * 24)
-                    )}{" "}
-                    days)
-                  </span>
-                </div>
-                <Menu>
-                  <MenuButton as={Button}>
-                    <BsThreeDotsVertical />
-                  </MenuButton>
-                  <MenuList>
-                    <MenuItem
-                      icon={<BsFillTrashFill />}
-                      onClick={() =>
-                        fetcher.submit(
-                          { id: sowing.id, action: "delete-sowing" },
-                          { method: "post" }
-                        )
-                      }
-                    >
-                      Delete
-                    </MenuItem>
-                  </MenuList>
-                </Menu>
-              </li>
-            ))}
+            {data.crop.sowings
+              .sort((s1, s2) => (s1.plantedAt < s2.plantedAt ? -1 : 1))
+              .map((sowing) => (
+                <li
+                  key={sowing.id}
+                  className="flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-1">
+                    <BsFillCalendarFill className="inline" />
+                    <span>
+                      {new Date(sowing.plantedAt).toLocaleDateString()}
+                    </span>
+                    <span>
+                      (
+                      {Math.ceil(
+                        (new Date().getTime() -
+                          new Date(sowing.plantedAt).getTime()) /
+                          (1000 * 3600 * 24)
+                      )}{" "}
+                      days)
+                    </span>
+                  </div>
+                  <Menu>
+                    <MenuButton as={Button}>
+                      <BsThreeDotsVertical />
+                    </MenuButton>
+                    <MenuList>
+                      <MenuItem
+                        icon={<BsFillTrashFill />}
+                        onClick={() =>
+                          fetcher.submit(
+                            { id: sowing.id, action: "delete-sowing" },
+                            { method: "post" }
+                          )
+                        }
+                      >
+                        Delete
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+                </li>
+              ))}
           </ol>
         )}
       </div>
