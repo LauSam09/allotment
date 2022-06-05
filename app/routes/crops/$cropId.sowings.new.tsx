@@ -10,7 +10,7 @@ import React, { useRef, useState } from "react";
 import { requireUserId } from "~/session.server";
 import { createSowing, getCrop } from "~/models/crops.server";
 
-import styles from "react-datepicker/dist/react-datepicker.css";
+import styles from "react-datepicker/dist/react-datepicker.min.css";
 
 export function links() {
   return [
@@ -67,20 +67,6 @@ export default function NewCropPage() {
     }
   }
 
-  const CustomInput = (
-    props: React.HTMLProps<HTMLInputElement>,
-    ref: React.Ref<HTMLInputElement>
-  ) => {
-    return (
-      <input
-        {...props}
-        ref={ref}
-        name="planted-at"
-        className="rounded border-2 p-1"
-      />
-    );
-  };
-
   return (
     <Form method="post" className="flex flex-col gap-8">
       <div>
@@ -93,9 +79,9 @@ export default function NewCropPage() {
             selected={plantedDate}
             dateFormat="dd/MM/yyyy"
             onChange={setPlantedDate}
-            // TypeScript workaround based on https://github.com/Hacker0x01/react-datepicker/issues/2165#issuecomment-711032947
-            customInput={React.createElement(React.forwardRef(CustomInput))}
             filterDate={(date) => new Date() > date}
+            showPopperArrow={false}
+            className="rounded border-2 p-1"
           />
         </label>
       </div>
