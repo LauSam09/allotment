@@ -4,8 +4,8 @@ import { prisma } from "~/db.server";
 
 export type { Crop } from "@prisma/client";
 
-export type CropWithSowings = Prisma.CropGetPayload<{
-  include: { sowings: true };
+export type CropWithSowingsAndSpecies = Prisma.CropGetPayload<{
+  include: { sowings: true; species: true };
 }>;
 
 export enum CropStage {
@@ -18,7 +18,7 @@ export function getCrop({
   userId,
 }: Pick<Crop, "id"> & { userId: User["id"] }) {
   return prisma.crop.findFirst({
-    include: { sowings: true },
+    include: { sowings: true, species: true },
     where: { id, userId },
   });
 }
@@ -31,12 +31,16 @@ export function getCropListItems({ userId }: { userId: User["id"] }) {
 }
 
 export function createCrop({
-  species,
+  speciesId,
   userId,
-}: Pick<Crop, "species"> & { userId: User["id"] }) {
+}: Pick<Crop, "speciesId"> & { userId: User["id"] }) {
   return prisma.crop.create({
     data: {
-      species,
+      species: {
+        connect: {
+          id: speciesId,
+        },
+      },
       user: {
         connect: {
           id: userId,

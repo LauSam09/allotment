@@ -25,9 +25,51 @@ async function seed() {
     },
   });
 
+  const garlicSpecies = await prisma.species.create({
+    data: {
+      name: "Garlic",
+    },
+  });
+
+  const shallotSpecies = await prisma.species.create({
+    data: {
+      name: "Shallot",
+    },
+  });
+
+  const earlyPotatoSpecies = await prisma.species.create({
+    data: {
+      name: "Potato (early)",
+    },
+  });
+
+  const carrotSpecies = await prisma.species.create({
+    data: {
+      name: "Carrot",
+    },
+  });
+
+  const beetrootSpecies = await prisma.species.create({
+    data: {
+      name: "Beetroot",
+    },
+  });
+
+  const tomatoSpecies = await prisma.species.create({
+    data: {
+      name: "Tomato",
+    },
+  });
+
+  const dwarfFrenchBeanSpecies = await prisma.species.create({
+    data: {
+      name: "Dwarf French Bean",
+    },
+  });
+
   const garlicCrop = await prisma.crop.create({
     data: {
-      species: "Garlic",
+      speciesId: garlicSpecies.id,
       userId: user.id,
     },
   });
@@ -42,7 +84,7 @@ async function seed() {
 
   const shallotCrop = await prisma.crop.create({
     data: {
-      species: "Shallot",
+      speciesId: shallotSpecies.id,
       userId: user.id,
     },
   });
@@ -57,7 +99,7 @@ async function seed() {
 
   const potatoCrop = await prisma.crop.create({
     data: {
-      species: "Potato (early)",
+      speciesId: earlyPotatoSpecies.id,
       userId: user.id,
     },
   });
@@ -72,7 +114,7 @@ async function seed() {
 
   const carrotCrop = await prisma.crop.create({
     data: {
-      species: "Carrot",
+      speciesId: carrotSpecies.id,
       userId: user.id,
     },
   });
@@ -103,7 +145,7 @@ async function seed() {
 
   const betrootCrop = await prisma.crop.create({
     data: {
-      species: "Beetroot",
+      speciesId: beetrootSpecies.id,
       userId: user.id,
     },
   });
@@ -118,7 +160,7 @@ async function seed() {
 
   const tomatoCrop = await prisma.crop.create({
     data: {
-      species: "Tomato",
+      speciesId: tomatoSpecies.id,
       userId: user.id,
     },
   });
@@ -141,7 +183,7 @@ async function seed() {
 
   const dfbCrop = await prisma.crop.create({
     data: {
-      species: "Dwarf French Bean",
+      speciesId: dwarfFrenchBeanSpecies.id,
       userId: user.id,
     },
   });

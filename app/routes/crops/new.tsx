@@ -1,8 +1,18 @@
-import { Form } from "@remix-run/react";
-import type { ActionFunction } from "@remix-run/server-runtime";
+import { Form, useLoaderData } from "@remix-run/react";
+import type { ActionFunction, LoaderFunction } from "@remix-run/server-runtime";
 import { json, redirect } from "@remix-run/node";
 import { requireUserId } from "~/session.server";
 import { createCrop } from "~/models/crops.server";
+import { getSpeciesListItems } from "~/models/species.server";
+
+type LoaderData = {
+  speciesListItems: Awaited<ReturnType<typeof getSpeciesListItems>>;
+};
+
+export const loader: LoaderFunction = async () => {
+  const speciesListItems = await getSpeciesListItems();
+  return json<LoaderData>({ speciesListItems });
+};
 
 type ActionData = {
   errors?: {
@@ -25,12 +35,14 @@ export const action: ActionFunction = async ({ request }) => {
     );
   }
 
-  const crop = await createCrop({ species, userId });
+  const crop = await createCrop({ speciesId: species, userId });
 
   return redirect(`/crops/${crop.id}`);
 };
 
 export default function NewCropPage() {
+  const data = useLoaderData<LoaderData>();
+
   return (
     <Form method="post" className="flex flex-col gap-8">
       <div>
@@ -40,11 +52,13 @@ export default function NewCropPage() {
             name="species"
             className="rounded-md border-2 px-3 text-lg leading-loose"
           >
-            <option value="Carrot">Carrot</option>
-            <option value="French Dwarf Bean">French Dwarf Bean</option>
-            <option value="Garlic">Garlic</option>
-            <option value="Potato">Potato</option>
-            <option value="Tomato">Tomato</option>
+            {data.speciesListItems
+              .sort((s1, s2) => s1.name.localeCompare(s2.name))
+              .map((species) => (
+                <option key={species.id} value={species.id}>
+                  {species.name}
+                </option>
+              ))}
           </select>
         </label>
       </div>

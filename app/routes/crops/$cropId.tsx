@@ -17,14 +17,14 @@ import {
   BsThreeDotsVertical,
 } from "react-icons/bs";
 
-import type { CropWithSowings } from "~/models/crops.server";
+import type { CropWithSowingsAndSpecies } from "~/models/crops.server";
 import { deleteSowing } from "~/models/crops.server";
 import { deleteCrop } from "~/models/crops.server";
 import { getCrop } from "~/models/crops.server";
 import { requireUserId } from "~/session.server";
 
 type LoaderData = {
-  crop: CropWithSowings;
+  crop: CropWithSowingsAndSpecies;
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -75,7 +75,7 @@ export default function CropDetailsPage() {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-between">
-        <h3 className="text-2xl font-bold">{data.crop.species}</h3>
+        <h3 className="text-2xl font-bold">{data.crop.species.name}</h3>
         <Form method="post">
           <Menu>
             <MenuButton as={Button}>

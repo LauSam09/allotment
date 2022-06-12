@@ -16,7 +16,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function CropsIndexPage() {
-  const data = useLoaderData() as LoaderData;
+  const data = useLoaderData<LoaderData>();
 
   return (
     <div>
@@ -33,7 +33,7 @@ export default function CropsIndexPage() {
                 className="block border-b p-4 text-xl hover:bg-gray-200"
                 to={crop.id}
               >
-                🌱 {crop.species}
+                🌱 {crop.species.name}
               </Link>
             </li>
           ))}
