@@ -51,6 +51,9 @@ model Crop {
 model Species {
   id String @id @default(cuid())
   name String
+  growingPeriodMin Int?
+  growingPeriodMax Int?
+
   crops Crop[]
 
   createdAt DateTime @default(now())

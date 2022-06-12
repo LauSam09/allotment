@@ -46,6 +46,8 @@ async function seed() {
   const carrotSpecies = await prisma.species.create({
     data: {
       name: "Carrot",
+      growingPeriodMin: 12,
+      growingPeriodMax: 16,
     },
   });
 

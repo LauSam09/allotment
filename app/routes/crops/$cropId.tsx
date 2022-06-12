@@ -68,13 +68,29 @@ export const action: ActionFunction = async ({ request, params }) => {
   return null;
 };
 
+function isPlural(number: number) {
+  return number === 0 || number > 1;
+}
+
+function getWeeksAndDays(days: number) {
+  const weeks = Math.floor(days / 7);
+  const remainderDays = days % 7;
+
+  const weekString = `${weeks} week${isPlural(weeks) ? "s" : ""}`;
+  const dayString = `${remainderDays} day${isPlural(remainderDays) ? "s" : ""}`;
+
+  return `${weeks > 0 ? weekString : ""}${
+    weeks > 0 && remainderDays > 0 ? " " : ""
+  }${remainderDays > 0 ? dayString : ""}`;
+}
+
 export default function CropDetailsPage() {
   const data = useLoaderData<LoaderData>();
   const fetcher = useFetcher();
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex justify-between">
+    <div className="flex flex-col  gap-2">
+      <div className="flex justify-between p-2">
         <h3 className="text-2xl font-bold">{data.crop.species.name}</h3>
         <Form method="post">
           <Menu>
@@ -94,6 +110,18 @@ export default function CropDetailsPage() {
           </Menu>
         </Form>
       </div>
+
+      {data.crop.species.growingPeriodMin && (
+        <div className="rounded border-2 p-2">
+          <dl>
+            <dt>Growing period (weeks)</dt>
+            <dd>
+              {data.crop.species.growingPeriodMin} -{" "}
+              {data.crop.species.growingPeriodMax}
+            </dd>
+          </dl>
+        </div>
+      )}
 
       <div className="flex flex-col gap-2 rounded border-2 p-2">
         <div className="flex justify-between ">
@@ -123,12 +151,14 @@ export default function CropDetailsPage() {
                     </span>
                     <span>
                       (
-                      {Math.ceil(
-                        (new Date().getTime() -
-                          new Date(sowing.plantedAt).getTime()) /
-                          (1000 * 3600 * 24)
-                      )}{" "}
-                      days)
+                      {getWeeksAndDays(
+                        Math.ceil(
+                          (new Date().getTime() -
+                            new Date(sowing.plantedAt).getTime()) /
+                            (1000 * 3600 * 24)
+                        )
+                      )}
+                      )
                     </span>
                   </div>
                   <Menu>
