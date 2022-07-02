@@ -16,6 +16,7 @@ import {
   BsPlusLg,
   BsThreeDotsVertical,
 } from "react-icons/bs";
+import classNames from "classnames";
 
 import type { CropWithSowingsAndSpecies } from "~/models/crops.server";
 import { deleteSowing } from "~/models/crops.server";
@@ -84,9 +85,36 @@ function getWeeksAndDays(days: number) {
   }${remainderDays > 0 ? dayString : ""}`;
 }
 
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 export default function CropDetailsPage() {
   const data = useLoaderData<LoaderData>();
   const fetcher = useFetcher();
+
+  const sowingMonths = (data.crop.species.sowingMonths ?? "")
+    .split(" ")
+    .map((m) => +m);
+
+  const plantingMonths = (data.crop.species.plantingMonths ?? "")
+    .split(" ")
+    .map((m) => +m);
+
+  const harvestingMonths = (data.crop.species.harvestingMonths ?? "")
+    .split(" ")
+    .map((m) => +m);
 
   return (
     <div className="flex flex-col  gap-2">
@@ -111,8 +139,93 @@ export default function CropDetailsPage() {
         </Form>
       </div>
 
-      {data.crop.species.growingPeriodMin && (
-        <div className="rounded border-2 p-2">
+      <div className="rounded border-2 p-2">
+        <table className="w-full border-separate text-xs">
+          <tbody>
+            {data.crop.species.sowingMonths && (
+              <>
+                <tr>
+                  <th colSpan={12} className="text-left text-xs">
+                    Sow
+                  </th>
+                </tr>
+                <tr>
+                  {months.map((m, i) => (
+                    <td key={m} className="">
+                      <div
+                        className={classNames(
+                          "min-w-[20px] bg-slate-100 py-1 text-center",
+                          {
+                            "bg-blue-600 text-white":
+                              sowingMonths.filter((hm) => hm === i + 1).length >
+                              0,
+                          }
+                        )}
+                      >
+                        {m[0].toUpperCase()}
+                      </div>
+                    </td>
+                  ))}
+                </tr>
+              </>
+            )}
+            {data.crop.species.plantingMonths && (
+              <>
+                <tr>
+                  <th colSpan={12} className="text-left text-xs">
+                    Plant
+                  </th>
+                </tr>
+                <tr>
+                  {months.map((m, i) => (
+                    <td key={m} className="">
+                      <div
+                        className={classNames(
+                          "min-w-[20px] bg-slate-100 py-1 text-center",
+                          {
+                            "bg-green-400 text-white":
+                              plantingMonths.filter((hm) => hm === i + 1)
+                                .length > 0,
+                          }
+                        )}
+                      >
+                        {m[0].toUpperCase()}
+                      </div>
+                    </td>
+                  ))}
+                </tr>
+              </>
+            )}
+            {data.crop.species.harvestingMonths && (
+              <>
+                <tr>
+                  <th colSpan={12} className="text-left">
+                    Harvest
+                  </th>
+                </tr>
+                <tr>
+                  {months.map((m, i) => (
+                    <td key={m} className="">
+                      <div
+                        className={classNames(
+                          "min-w-[20px] bg-slate-100 py-1 text-center",
+                          {
+                            "bg-orange-400 text-white":
+                              harvestingMonths.filter((hm) => hm === i + 1)
+                                .length > 0,
+                          }
+                        )}
+                      >
+                        {m[0].toUpperCase()}
+                      </div>
+                    </td>
+                  ))}
+                </tr>
+              </>
+            )}
+          </tbody>
+        </table>
+        {data.crop.species.growingPeriodMin && (
           <dl>
             <dt>Growing period (weeks)</dt>
             <dd>
@@ -120,8 +233,8 @@ export default function CropDetailsPage() {
               {data.crop.species.growingPeriodMax}
             </dd>
           </dl>
-        </div>
-      )}
+        )}
+      </div>
 
       <div className="flex flex-col gap-2 rounded border-2 p-2">
         <div className="flex justify-between ">
