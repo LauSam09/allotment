@@ -104,6 +104,8 @@ export default function CropDetailsPage() {
   const data = useLoaderData<LoaderData>();
   const fetcher = useFetcher();
 
+  const currentMonth = new Date().getMonth();
+
   const sowingMonths = (data.crop.species.sowingMonths ?? "")
     .split(" ")
     .map((m) => +m);
@@ -159,6 +161,8 @@ export default function CropDetailsPage() {
                             "bg-blue-600 text-white":
                               sowingMonths.filter((hm) => hm === i + 1).length >
                               0,
+                            "border-2 border-black font-bold":
+                              currentMonth === i + 1,
                           }
                         )}
                       >
@@ -186,6 +190,8 @@ export default function CropDetailsPage() {
                             "bg-green-400 text-white":
                               plantingMonths.filter((hm) => hm === i + 1)
                                 .length > 0,
+                            "border-2 border-black font-bold":
+                              currentMonth === i + 1,
                           }
                         )}
                       >
@@ -213,6 +219,8 @@ export default function CropDetailsPage() {
                             "bg-orange-400 text-white":
                               harvestingMonths.filter((hm) => hm === i + 1)
                                 .length > 0,
+                            "border-2 border-black font-bold":
+                              currentMonth === i + 1,
                           }
                         )}
                       >
