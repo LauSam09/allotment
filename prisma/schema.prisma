@@ -53,6 +53,9 @@ model Species {
   name String
   growingPeriodMin Int?
   growingPeriodMax Int?
+  sowingMonths String?
+  plantingMonths String?
+  harvestingMonths String
 
   crops Crop[]
 

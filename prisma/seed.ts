@@ -28,18 +28,25 @@ async function seed() {
   const garlicSpecies = await prisma.species.create({
     data: {
       name: "Garlic",
+      plantingMonths: "1 2 10 11 12",
+      harvestingMonths: "6 7 8",
     },
   });
 
   const shallotSpecies = await prisma.species.create({
     data: {
       name: "Shallot",
+      sowingMonths: "3 4",
+      plantingMonths: "1 2 3 11 12",
+      harvestingMonths: "7 8",
     },
   });
 
   const earlyPotatoSpecies = await prisma.species.create({
     data: {
-      name: "Potato (early)",
+      name: "Potato",
+      plantingMonths: "3 4 5",
+      harvestingMonths: "6 7 8 9 10",
     },
   });
 
@@ -48,24 +55,32 @@ async function seed() {
       name: "Carrot",
       growingPeriodMin: 12,
       growingPeriodMax: 16,
+      sowingMonths: "2 3 4 5 6 7",
+      harvestingMonths: "5 6 7 8 9 10",
     },
   });
 
   const beetrootSpecies = await prisma.species.create({
     data: {
       name: "Beetroot",
+      sowingMonths: "3 4 5 6 7",
+      harvestingMonths: "6 7 8 9 10",
     },
   });
 
   const tomatoSpecies = await prisma.species.create({
     data: {
       name: "Tomato",
+      sowingMonths: "2 3 4",
+      harvestingMonths: "7 8 9",
     },
   });
 
   const dwarfFrenchBeanSpecies = await prisma.species.create({
     data: {
       name: "Dwarf French Bean",
+      sowingMonths: "4 5 6 7",
+      harvestingMonths: "7 8 9",
     },
   });
 
